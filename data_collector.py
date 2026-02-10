@@ -3,6 +3,14 @@ Module de Collecte de Données Financières - Version Étendue
 ============================================================
 Récupération massive des données de marché via APIs (yfinance)
 Dataset: 2000-présent pour maximiser la précision du modèle
+
+Author: Ilyas Fardaoui
+Project: Gold Trading AI
+Features:
+    - 16 financial assets (Gold, DXY, VIX, S&P500, Bitcoin, etc.)
+    - 25+ years of historical data
+    - Automatic retry mechanism for API failures
+    - Real-time data fetching capabilities
 """
 
 import pandas as pd
