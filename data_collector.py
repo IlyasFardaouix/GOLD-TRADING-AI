@@ -65,13 +65,13 @@ class MarketDataCollector:
         """
         for attempt in range(retries):
             try:
-                logger.info(f"📥 Téléchargement {name} ({symbol})... [Tentative {attempt + 1}]")
+                logger.info(f"[DOWNLOAD] Telechargement {name} ({symbol})... [Tentative {attempt + 1}]")
                 
                 ticker = yf.Ticker(symbol)
                 df = ticker.history(start=self.start_date, end=self.end_date, auto_adjust=True)
                 
                 if df.empty:
-                    logger.warning(f"⚠️ Aucune donnée pour {symbol}")
+                    logger.warning(f"[WARNING] Aucune donnee pour {symbol}")
                     return None
                     
                 # Renommer les colonnes avec le préfixe de l'actif
@@ -85,11 +85,11 @@ class MarketDataCollector:
                 # Supprimer les doublons d'index
                 df = df[~df.index.duplicated(keep='first')]
                 
-                logger.info(f"✅ {name}: {len(df):,} lignes ({df.index.min().strftime('%Y-%m-%d')} → {df.index.max().strftime('%Y-%m-%d')})")
+                logger.info(f"[OK] {name}: {len(df):,} lignes ({df.index.min().strftime('%Y-%m-%d')} -> {df.index.max().strftime('%Y-%m-%d')})")
                 return df
                 
             except Exception as e:
-                logger.warning(f"⚠️ Erreur {symbol}: {e}")
+                logger.warning(f"[WARNING] Erreur {symbol}: {e}")
                 if attempt < retries - 1:
                     time.sleep(2)
                     
@@ -103,8 +103,8 @@ class MarketDataCollector:
             DataFrame fusionné avec tous les actifs
         """
         logger.info("=" * 60)
-        logger.info("🚀 DÉBUT DE LA COLLECTE DES DONNÉES MASSIVES")
-        logger.info(f"📅 Période: {self.start_date} → {self.end_date}")
+        logger.info("[START] DEBUT DE LA COLLECTE DES DONNEES MASSIVES")
+        logger.info(f"[DATE] Periode: {self.start_date} -> {self.end_date}")
         logger.info("=" * 60)
         
         dataframes = {}
@@ -123,7 +123,7 @@ class MarketDataCollector:
             raise ValueError("Les données Gold sont obligatoires!")
         
         # Fusionner tous les DataFrames sur l'index (date)
-        logger.info("\n🔄 Fusion des données...")
+        logger.info("\n[MERGE] Fusion des donnees...")
         merged_df = dataframes['gold'].copy()
         
         for name, df in dataframes.items():
@@ -131,7 +131,7 @@ class MarketDataCollector:
                 merged_df = merged_df.join(df, how='left')
         
         # Interpoler les valeurs manquantes (jours de trading différents)
-        logger.info("🔧 Interpolation des valeurs manquantes...")
+        logger.info("[CLEAN] Interpolation des valeurs manquantes...")
         merged_df = merged_df.ffill(limit=5).bfill(limit=5)
         
         # Supprimer les lignes avec trop de NaN (> 30%)
@@ -141,16 +141,16 @@ class MarketDataCollector:
         
         # Statistiques finales
         logger.info("\n" + "=" * 60)
-        logger.info("📊 STATISTIQUES DU DATASET")
+        logger.info("[STATS] STATISTIQUES DU DATASET")
         logger.info("=" * 60)
-        logger.info(f"📈 Lignes totales: {len(merged_df):,}")
-        logger.info(f"📊 Colonnes: {len(merged_df.columns)}")
-        logger.info(f"📅 Période: {merged_df.index.min().strftime('%Y-%m-%d')} → {merged_df.index.max().strftime('%Y-%m-%d')}")
-        logger.info(f"📆 Durée: {(merged_df.index.max() - merged_df.index.min()).days:,} jours")
-        logger.info(f"🗑️ Lignes supprimées: {initial_len - len(merged_df):,}")
+        logger.info(f"[ROWS] Lignes totales: {len(merged_df):,}")
+        logger.info(f"[COLS] Colonnes: {len(merged_df.columns)}")
+        logger.info(f"[DATE] Periode: {merged_df.index.min().strftime('%Y-%m-%d')} -> {merged_df.index.max().strftime('%Y-%m-%d')}")
+        logger.info(f"[DURATION] Duree: {(merged_df.index.max() - merged_df.index.min()).days:,} jours")
+        logger.info(f"[REMOVED] Lignes supprimees: {initial_len - len(merged_df):,}")
         
         # Afficher les actifs disponibles
-        logger.info("\n📋 ACTIFS RÉCUPÉRÉS:")
+        logger.info("\n[ASSETS] ACTIFS RECUPERES:")
         for name in dataframes.keys():
             col = f'{name}_close'
             if col in merged_df.columns:
@@ -198,7 +198,7 @@ class MarketDataCollector:
                     realtime_data[name] = None
                     
             except Exception as e:
-                logger.warning(f"⚠️ Temps réel {name}: {e}")
+                logger.warning(f"[WARNING] Temps reel {name}: {e}")
                 realtime_data[name] = None
                 
         return realtime_data
@@ -228,7 +228,7 @@ class MarketDataCollector:
                     dataframes[name] = df
                     
             except Exception as e:
-                logger.warning(f"⚠️ OHLC {name}: {e}")
+                logger.warning(f"[WARNING] OHLC {name}: {e}")
                 
         # Fusionner
         if 'gold' not in dataframes:
@@ -261,7 +261,7 @@ class MarketDataCollector:
             df.index = pd.to_datetime(df.index).tz_localize(None)
             return df
         except Exception as e:
-            logger.warning(f"⚠️ Intraday: {e}")
+            logger.warning(f"[WARNING] Intraday: {e}")
             return None
     
     def save_data(self, df: pd.DataFrame, filepath: str = None):
@@ -278,7 +278,7 @@ class MarketDataCollector:
         
         # Taille du fichier
         size_mb = os.path.getsize(filepath) / (1024 * 1024)
-        logger.info(f"💾 Données sauvegardées: {filepath} ({size_mb:.2f} MB)")
+        logger.info(f"[SAVED] Donnees sauvegardees: {filepath} ({size_mb:.2f} MB)")
         
     def load_data(self, filepath: str = None) -> pd.DataFrame:
         """
@@ -292,7 +292,7 @@ class MarketDataCollector:
         """
         filepath = filepath or RAW_DATA_PATH
         df = pd.read_csv(filepath, index_col=0, parse_dates=True)
-        logger.info(f"📂 Données chargées: {len(df):,} lignes")
+        logger.info(f"[LOADED] Donnees chargees: {len(df):,} lignes")
         return df
     
     def get_data_summary(self, df: pd.DataFrame) -> dict:
@@ -335,7 +335,7 @@ def collect_and_save_data():
     
     # Afficher le résumé
     summary = collector.get_data_summary(df)
-    logger.info("\n📊 RÉSUMÉ:")
+    logger.info("\n[SUMMARY] RESUME:")
     for key, value in summary.items():
         logger.info(f"   {key}: {value}")
     
