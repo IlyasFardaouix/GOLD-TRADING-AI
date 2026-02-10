@@ -2,6 +2,19 @@
 🥇 Gold Trading AI - Interface Professionnelle
 ================================================
 Dashboard interactif avancé pour le trading XAU/USD
+
+Author: Ilyas Fardaoui
+Project: Gold Trading AI
+Version: 1.0.0
+
+Features:
+    - Real-time trading signals (BUY/SELL)
+    - Interactive technical charts (Plotly)
+    - Live market metrics (8 key indicators)
+    - Correlation matrix visualization
+    - Model confidence scoring
+    
+URL: http://localhost:8501
 """
 
 import streamlit as st
