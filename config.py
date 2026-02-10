@@ -110,8 +110,8 @@ SCALER_PATH = os.path.join(MODELS_DIR, 'feature_scaler.joblib')
 # =====================================
 
 STREAMLIT_CONFIG = {
-    'page_title': '🥇 Gold Trading AI',
-    'page_icon': '🥇',
+    'page_title': 'Gold Trading AI',
+    'page_icon': 'Au',
     'layout': 'wide',
     'initial_sidebar_state': 'expanded'
 }
