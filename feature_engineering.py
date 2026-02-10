@@ -66,7 +66,7 @@ class FeatureEngineer:
         Args:
             prefix: Préfixe de l'actif principal
         """
-        logger.info("📈 Création des features de prix...")
+        logger.info("[CHART]  Création des features de prix...")
         
         close_col = f'{prefix}_close'
         high_col = f'{prefix}_high'
@@ -122,7 +122,7 @@ class FeatureEngineer:
         for period in [5, 10, 20, 60]:
             self.df[f'momentum_{period}d'] = self.df[close_col] - self.df[close_col].shift(period)
             
-        logger.info("✅ Features de prix créées")
+        logger.info("[OK]  Features de prix créées")
         
     def add_moving_averages(self, prefix: str = 'gold'):
         """
@@ -131,7 +131,7 @@ class FeatureEngineer:
         Args:
             prefix: Préfixe de l'actif
         """
-        logger.info("📊 Création des moyennes mobiles...")
+        logger.info("[STATS]  Création des moyennes mobiles...")
         
         close_col = f'{prefix}_close'
         
@@ -171,7 +171,7 @@ class FeatureEngineer:
             if f'sma_{period}' in self.df.columns:
                 self.df[f'sma_{period}_slope'] = self.df[f'sma_{period}'].diff(5) / self.df[f'sma_{period}'].shift(5)
             
-        logger.info("✅ Moyennes mobiles créées")
+        logger.info("[OK]  Moyennes mobiles créées")
         
     def add_rsi(self, prefix: str = 'gold'):
         """
@@ -180,7 +180,7 @@ class FeatureEngineer:
         Args:
             prefix: Préfixe de l'actif
         """
-        logger.info("📉 Calcul du RSI...")
+        logger.info("[DOWN]  Calcul du RSI...")
         
         close_col = f'{prefix}_close'
         
@@ -210,7 +210,7 @@ class FeatureEngineer:
         self.df['rsi_14_ma'] = self.df['rsi_14'].rolling(5).mean()
         self.df['rsi_14_divergence'] = self.df['rsi_14'] - self.df['rsi_14_ma']
             
-        logger.info("✅ RSI calculé")
+        logger.info("[OK]  RSI calculé")
         
     def add_macd(self, prefix: str = 'gold'):
         """
@@ -219,7 +219,7 @@ class FeatureEngineer:
         Args:
             prefix: Préfixe de l'actif
         """
-        logger.info("📈 Calcul du MACD...")
+        logger.info("[CHART]  Calcul du MACD...")
         
         close_col = f'{prefix}_close'
         
@@ -252,7 +252,7 @@ class FeatureEngineer:
         self.df['macd_swing'] = ema_fast2 - ema_slow2
         self.df['macd_swing_signal'] = self.df['macd_swing'].ewm(span=5, adjust=False).mean()
         
-        logger.info("✅ MACD calculé")
+        logger.info("[OK]  MACD calculé")
         
     def add_bollinger_bands(self, prefix: str = 'gold'):
         """
@@ -261,7 +261,7 @@ class FeatureEngineer:
         Args:
             prefix: Préfixe de l'actif
         """
-        logger.info("📊 Calcul des Bandes de Bollinger...")
+        logger.info("[STATS]  Calcul des Bandes de Bollinger...")
         
         close_col = f'{prefix}_close'
         
@@ -299,7 +299,7 @@ class FeatureEngineer:
         # Squeeze (faible volatilité)
         self.df['bb_squeeze'] = (self.df['bb_width'] < self.df['bb_width'].rolling(50).mean() * 0.75).astype(int)
         
-        logger.info("✅ Bandes de Bollinger calculées")
+        logger.info("[OK]  Bandes de Bollinger calculées")
         
     def add_momentum_indicators(self, prefix: str = 'gold'):
         """
@@ -308,7 +308,7 @@ class FeatureEngineer:
         Args:
             prefix: Préfixe de l'actif
         """
-        logger.info("⚡ Calcul des indicateurs de momentum...")
+        logger.info("[BOLT]  Calcul des indicateurs de momentum...")
         
         close_col = f'{prefix}_close'
         high_col = f'{prefix}_high'
@@ -381,7 +381,7 @@ class FeatureEngineer:
             
             self.df['ultimate_osc'] = 100 * (4 * avg7 + 2 * avg14 + avg28) / 7
             
-        logger.info("✅ Indicateurs de momentum calculés")
+        logger.info("[OK]  Indicateurs de momentum calculés")
         
     def add_volume_indicators(self, prefix: str = 'gold'):
         """
@@ -390,7 +390,7 @@ class FeatureEngineer:
         Args:
             prefix: Préfixe de l'actif
         """
-        logger.info("📊 Calcul des indicateurs de volume...")
+        logger.info("[STATS]  Calcul des indicateurs de volume...")
         
         close_col = f'{prefix}_close'
         volume_col = f'{prefix}_volume'
@@ -441,13 +441,13 @@ class FeatureEngineer:
             self.df['ad_line'] = (clv * self.df[volume_col]).cumsum()
             self.df['ad_line_ma'] = self.df['ad_line'].rolling(20).mean()
             
-        logger.info("✅ Indicateurs de volume calculés")
+        logger.info("[OK]  Indicateurs de volume calculés")
         
     def add_macro_features(self):
         """
         Crée des features basées sur les corrélations macro étendues.
         """
-        logger.info("🌍 Création des features macroéconomiques...")
+        logger.info("[MACRO]  Création des features macroéconomiques...")
         
         gold_close = 'gold_close'
         
@@ -558,13 +558,13 @@ class FeatureEngineer:
             self.df['gdx_return_5d'] = self.df['gold_miners_close'].pct_change(5)
             self.df['gdx_outperform'] = (self.df['gdx_return_5d'] > self.df['return_5d']).astype(int)
             
-        logger.info("✅ Features macroéconomiques créées")
+        logger.info("[OK]  Features macroéconomiques créées")
         
     def add_temporal_features(self):
         """
         Ajoute des features temporelles détaillées.
         """
-        logger.info("📅 Création des features temporelles...")
+        logger.info("[DATE]  Création des features temporelles...")
         
         self.df['day_of_week'] = self.df.index.dayofweek
         self.df['day_of_month'] = self.df.index.day
@@ -597,7 +597,7 @@ class FeatureEngineer:
         # Mois historiquement forts pour l'or
         self.df['gold_season_strong'] = self.df['month'].isin([1, 2, 8, 9, 11, 12]).astype(int)
         
-        logger.info("✅ Features temporelles créées")
+        logger.info("[OK]  Features temporelles créées")
         
     def add_lag_features(self, prefix: str = 'gold', max_lag: int = 10):
         """
@@ -607,7 +607,7 @@ class FeatureEngineer:
             prefix: Préfixe de l'actif
             max_lag: Nombre maximum de lags
         """
-        logger.info("⏰ Création des features de lag...")
+        logger.info("[TIME]  Création des features de lag...")
         
         close_col = f'{prefix}_close'
         
@@ -628,7 +628,7 @@ class FeatureEngineer:
             for lag in [1, 2, 3]:
                 self.df[f'macd_hist_lag_{lag}'] = self.df['macd_histogram'].shift(lag)
         
-        logger.info("✅ Features de lag créées")
+        logger.info("[OK]  Features de lag créées")
         
     def add_pattern_features(self, prefix: str = 'gold'):
         """
@@ -637,7 +637,7 @@ class FeatureEngineer:
         Args:
             prefix: Préfixe de l'actif
         """
-        logger.info("🎯 Détection des patterns...")
+        logger.info("[TARGET]  Détection des patterns...")
         
         close_col = f'{prefix}_close'
         high_col = f'{prefix}_high'
@@ -681,7 +681,7 @@ class FeatureEngineer:
             self.df['lower_low'] = (self.df[low_col] < self.df[low_col].shift(1)).astype(int)
             self.df['higher_low'] = (self.df[low_col] > self.df[low_col].shift(1)).astype(int)
             
-        logger.info("✅ Patterns détectés")
+        logger.info("[OK]  Patterns détectés")
         
     def create_target(self, prefix: str = 'gold', horizon: int = None):
         """
@@ -691,7 +691,7 @@ class FeatureEngineer:
             prefix: Préfixe de l'actif
             horizon: Horizon de prédiction en jours
         """
-        logger.info("🎯 Création de la variable cible...")
+        logger.info("[TARGET]  Création de la variable cible...")
         
         horizon = horizon or PREDICTION_HORIZON
         close_col = f'{prefix}_close'
@@ -713,7 +713,7 @@ class FeatureEngineer:
                                           bins=[-np.inf, -0.02, -0.005, 0.005, 0.02, np.inf],
                                           labels=[0, 1, 2, 3, 4])  # Strong sell, Sell, Neutral, Buy, Strong buy
         
-        logger.info(f"✅ Cible créée (horizon: {horizon} jours)")
+        logger.info(f"[OK]  Cible créée (horizon: {horizon} jours)")
         logger.info(f"   Distribution: {self.df['target'].value_counts().to_dict()}")
         
     def build_all_features(self, prefix: str = 'gold') -> pd.DataFrame:
@@ -727,7 +727,7 @@ class FeatureEngineer:
             DataFrame avec toutes les features
         """
         logger.info("=" * 60)
-        logger.info("🚀 DÉBUT DU FEATURE ENGINEERING AVANCÉ")
+        logger.info("[START]  DÉBUT DU FEATURE ENGINEERING AVANCÉ")
         logger.info("=" * 60)
         
         self.add_price_features(prefix)
@@ -767,15 +767,15 @@ class FeatureEngineer:
         feature_cols = self.get_feature_columns()
         
         logger.info("\n" + "=" * 60)
-        logger.info("✅ FEATURE ENGINEERING TERMINÉ")
+        logger.info("[OK]  FEATURE ENGINEERING TERMINÉ")
         logger.info("=" * 60)
-        logger.info(f"📊 Lignes: {initial_len:,} → {final_len:,} (supprimées: {initial_len - final_len:,})")
-        logger.info(f"📈 Features créées: {len(feature_cols)}")
+        logger.info(f"[STATS]  Lignes: {initial_len:,} → {final_len:,} (supprimées: {initial_len - final_len:,})")
+        logger.info(f"[CHART]  Features créées: {len(feature_cols)}")
         
         if len(self.df) > 0:
-            logger.info(f"📅 Période: {self.df.index.min().strftime('%Y-%m-%d')} → {self.df.index.max().strftime('%Y-%m-%d')}")
+            logger.info(f"[DATE]  Période: {self.df.index.min().strftime('%Y-%m-%d')} → {self.df.index.max().strftime('%Y-%m-%d')}")
         else:
-            logger.warning("⚠️ Aucune donnée après nettoyage!")
+            logger.warning("[WARNING]  Aucune donnée après nettoyage!")
         
         return self.df
     
@@ -812,7 +812,7 @@ class FeatureEngineer:
         self.df.to_csv(filepath)
         
         size_mb = os.path.getsize(filepath) / (1024 * 1024)
-        logger.info(f"💾 Données traitées sauvegardées: {filepath} ({size_mb:.2f} MB)")
+        logger.info(f"[SAVED]  Données traitées sauvegardées: {filepath} ({size_mb:.2f} MB)")
 
 
 def process_raw_data(df: pd.DataFrame = None) -> pd.DataFrame:
@@ -848,14 +848,14 @@ if __name__ == "__main__":
     processed_df = process_raw_data(raw_df)
     
     print("\n" + "=" * 60)
-    print("📊 APERÇU DES FEATURES")
+    print("[STATS]  APERÇU DES FEATURES")
     print("=" * 60)
     
     engineer = FeatureEngineer(raw_df)
     feature_cols = engineer.get_feature_columns()
     
-    print(f"\n📈 Nombre de features: {len(feature_cols)}")
-    print(f"\n📋 Exemples de features:")
+    print(f"\n[CHART]  Nombre de features: {len(feature_cols)}")
+    print(f"\n[LIST]  Exemples de features:")
     for i, col in enumerate(feature_cols[:30]):
         print(f"   {i+1}. {col}")
     print(f"   ... et {len(feature_cols) - 30} autres")
