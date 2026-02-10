@@ -50,6 +50,3 @@ pip install -r requirements.txt
 python run_pipeline.py
 ```
 
-## Contact
-
-For questions, open an issue or contact the maintainer.
