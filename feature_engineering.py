@@ -3,6 +3,22 @@ Module de Feature Engineering - Version Étendue
 =================================================
 Création de 150+ indicateurs techniques et features pour le ML
 Optimisé pour un dataset massif (25+ ans de données)
+
+Author: Ilyas Fardaoui
+Project: Gold Trading AI
+
+Technical Indicators:
+    - Moving Averages (SMA, EMA) - Multiple periods
+    - RSI (Relative Strength Index) - 7, 14, 21 periods
+    - MACD (Moving Average Convergence Divergence)
+    - Bollinger Bands - Multiple configurations
+    - Stochastic Oscillator, Williams %R, CCI, ADX
+    - ATR (Average True Range) for volatility
+
+Macro Features:
+    - Dollar correlation, yield spreads
+    - Cross-asset ratios (Gold/Silver, Gold/DXY)
+    - Pattern detection (higher highs, lower lows)
 """
 
 import pandas as pd
