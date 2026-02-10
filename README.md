@@ -340,13 +340,4 @@ The predictions provided do not constitute financial advice in any way. Trading 
 
 ---
 
-## License
 
-This project is licensed under the MIT License.
-
----
-
-<p align="center">
-  <strong>Developed with Python</strong><br>
-  <em>Gold Trading AI v2.0</em>
-</p>
