@@ -125,7 +125,7 @@ class GoldTradingModel:
             use_smote: Utiliser SMOTE pour le rééquilibrage
         """
         logger.info("=" * 60)
-        logger.info("🚀 ENTRAÎNEMENT DU MODÈLE XGBOOST")
+        logger.info("[START]  ENTRAÎNEMENT DU MODÈLE XGBOOST")
         logger.info("=" * 60)
         
         # Rééquilibrage optionnel
@@ -142,7 +142,7 @@ class GoldTradingModel:
         # Créer le modèle
         self.model = XGBClassifier(**params)
         
-        logger.info(f"📊 Paramètres: n_estimators={params.get('n_estimators')}, max_depth={params.get('max_depth')}, lr={params.get('learning_rate')}")
+        logger.info(f"[STATS]  Paramètres: n_estimators={params.get('n_estimators')}, max_depth={params.get('max_depth')}, lr={params.get('learning_rate')}")
         logger.info("⏳ Entraînement en cours...")
         
         # Entraîner avec ou sans early stopping
@@ -160,7 +160,7 @@ class GoldTradingModel:
             )
         
         self.is_trained = True
-        logger.info("✅ Modèle entraîné avec succès!")
+        logger.info("[OK]  Modèle entraîné avec succès!")
         
     def evaluate(self, X_test: np.ndarray, y_test: np.ndarray) -> dict:
         """
@@ -194,7 +194,7 @@ class GoldTradingModel:
         }
         
         # Affichage
-        logger.info(f"\n📊 MÉTRIQUES DE PERFORMANCE:")
+        logger.info(f"\n[STATS]  MÉTRIQUES DE PERFORMANCE:")
         logger.info(f"   Accuracy:  {metrics['accuracy']:.4f}")
         logger.info(f"   Precision: {metrics['precision']:.4f}")
         logger.info(f"   Recall:    {metrics['recall']:.4f}")
@@ -202,7 +202,7 @@ class GoldTradingModel:
         logger.info(f"   ROC-AUC:   {metrics['roc_auc']:.4f}")
         
         # Rapport de classification
-        logger.info(f"\n📋 RAPPORT DE CLASSIFICATION:")
+        logger.info(f"\n[LIST]  RAPPORT DE CLASSIFICATION:")
         print(classification_report(y_test, y_pred, target_names=['VENTE (0)', 'ACHAT (1)']))
         
         # Matrice de confusion
@@ -451,7 +451,7 @@ def train_and_save_model(df: pd.DataFrame = None) -> GoldTradingModel:
     
     # Importance des features
     importance = model.get_feature_importance(15)
-    logger.info(f"\n📊 TOP 15 FEATURES:\n{importance}")
+    logger.info(f"\n[STATS]  TOP 15 FEATURES:\n{importance}")
     
     # Sauvegarder
     model.save()
