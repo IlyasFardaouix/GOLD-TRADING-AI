@@ -2,6 +2,10 @@
 Configuration du Système de Trading XAU/USD
 ============================================
 Paramètres globaux et clés API
+
+Author: Ilyas Fardaoui
+Project: Gold Trading AI - Intelligent Decision Support System
+Version: 1.0.0
 """
 
 import os
