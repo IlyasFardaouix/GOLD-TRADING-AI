@@ -1,7 +1,7 @@
 """
-🥇 Gold Trading AI - Interface Professionnelle
-================================================
-Dashboard interactif avancé pour le trading XAU/USD
+Gold Trading AI - Professional Interface
+==========================================
+Advanced interactive dashboard for XAU/USD trading
 
 Author: Ilyas Fardaoui
 Project: Gold Trading AI
@@ -46,8 +46,8 @@ from model_training import GoldTradingModel
 # =====================================
 
 st.set_page_config(
-    page_title="🥇 Gold Trading AI - Dashboard Pro",
-    page_icon="🥇",
+    page_title="Gold Trading AI - Dashboard Pro",
+    page_icon="Au",
     layout="wide",
     initial_sidebar_state="expanded"
 )
