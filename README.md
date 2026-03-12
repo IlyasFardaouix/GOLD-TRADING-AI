@@ -1,124 +1,60 @@
 # Gold Trading AI - Intelligent Decision Support System for XAU/USD
+===========================================================
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.9+-blue.svg" alt="Python">
-  <img src="https://img.shields.io/badge/ML-XGBoost-green.svg" alt="XGBoost">
-  <img src="https://img.shields.io/badge/UI-Streamlit-red.svg" alt="Streamlit">
-  <img src="https://img.shields.io/badge/Data-25%2B%20Years-gold.svg" alt="Data">
-</p>
+## Overview
+-----------
 
-## Description
-
-End-to-end algorithmic trading system dedicated to gold (XAU/USD). This project combines **Data Engineering**, **Quantitative Analysis**, **Machine Learning** and **Full-Stack Development** to provide real-time trading recommendations.
+This project is an end-to-end algorithmic trading system dedicated to gold (XAU/USD). It combines data engineering, quantitative analysis, machine learning, and full-stack development to provide real-time trading recommendations.
 
 ### Key Features
 
-- **Massive Dataset**: 25+ years of historical data (2000-present)
-- **344 Features**: Technical and macroeconomic indicators
-- **XGBoost Model**: Optimized binary classification (~90% accuracy)
-- **Professional Interface**: Interactive Streamlit dashboard
-- **Real-Time**: Live market data via yFinance
-
----
+* **Massive Dataset**: 25+ years of historical data (2000-present)
+* **344 Features**: Technical and macroeconomic indicators
+* **XGBoost Model**: Optimized binary classification (~90% accuracy)
+* **Professional Interface**: Interactive Streamlit dashboard
+* **Real-Time**: Live market data via yFinance
 
 ## Project Architecture
+------------------------
 
-```
-GOLD-TRADING-AI/
-|
-|-- .streamlit/
-|   +-- config.toml              # Streamlit theme configuration
-|
-|-- data/                        # Data directory (auto-generated)
-|   |-- raw_market_data.csv      # Raw market data (~7 MB)
-|   +-- processed_features.csv   # Processed features (~37 MB)
-|
-|-- models/                      # Trained models (auto-generated)
-|   |-- xgboost_gold_predictor.joblib    # XGBoost model
-|   +-- feature_scaler.joblib            # Feature scaler
-|
-|-- logs/                        # Log files
-|
-|-- config.py                    # Global configuration
-|   |-- SYMBOLS                  # 16 financial assets definitions
-|   |-- XGBOOST_PARAMS           # Model hyperparameters
-|   +-- Technical indicators settings
-|
-|-- data_collector.py            # Data collection module
-|   |-- MarketDataCollector      # Main class for data fetching
-|   |-- fetch_all_data()         # Collect 25+ years of data
-|   +-- fetch_realtime_data()    # Real-time market data
-|
-|-- feature_engineering.py       # Feature engineering module
-|   |-- FeatureEngineer          # Main class for feature creation
-|   |-- 344 technical features   # RSI, MACD, Bollinger, etc.
-|   |-- Macro features           # Correlations, ratios
-|   +-- Temporal features        # Seasonality, patterns
-|
-|-- model_training.py            # Model training module
-|   |-- GoldTradingModel         # XGBoost classifier wrapper
-|   |-- train()                  # Training with early stopping
-|   |-- evaluate()               # Performance metrics
-|   +-- predict()                # Generate predictions
-|
-|-- app.py                       # Streamlit dashboard (1100+ lines)
-|   |-- Real-time metrics        # 8 key market indicators
-|   |-- Trading signals          # BUY/SELL recommendations
-|   |-- Technical charts         # Interactive Plotly charts
-|   +-- Correlation analysis     # Cross-asset correlations
-|
-|-- run_pipeline.py              # Complete pipeline execution
-|
-|-- requirements.txt             # Python dependencies
-|-- README.md                    # Project documentation
-|-- LICENSE                      # MIT License
-|-- CONTRIBUTING.md              # Contribution guidelines
-|-- Makefile                     # Development shortcuts
-|-- .gitignore                   # Git ignore rules
-+-- .env.example                 # Environment variables template
-```
+The project is organized into the following directories:
 
----
+* `data/`: Data directory (auto-generated)
+	+ `raw_market_data.csv`: Raw market data (~7 MB)
+	+ `processed_features.csv`: Processed features (~37 MB)
+* `models/`: Trained models (auto-generated)
+	+ `xgboost_gold_predictor.joblib`: XGBoost model
+	+ `feature_scaler.joblib`: Feature scaler
+* `logs/`: Log files
+* `config.py`: Global configuration
+* `data_collector.py`: Data collection module
+* `feature_engineering.py`: Feature engineering module
+* `model_training.py`: Model training module
+* `app.py`: Streamlit dashboard (1100+ lines)
+* `run_pipeline.py`: Complete pipeline execution
+* `requirements.txt`: Python dependencies
+* `README.md`: Project documentation
+* `LICENSE`: MIT License
+* `CONTRIBUTING.md`: Contribution guidelines
+* `Makefile`: Development shortcuts
+* `.gitignore`: Git ignore rules
+* `.env.example`: Environment variables template
 
 ## Data Flow
+------------
 
-```
-[Yahoo Finance API]
-        |
-        v
-+-------------------+
-| data_collector.py |  --> Fetches 16 assets, 25+ years
-+-------------------+
-        |
-        v
-+-------------------+
-| raw_market_data   |  --> 6,344 rows, 80 columns
-+-------------------+
-        |
-        v
-+----------------------+
-| feature_engineering  |  --> Creates 344 features
-+----------------------+
-        |
-        v
-+---------------------+
-| processed_features  |  --> 6,084 rows, 431 columns
-+---------------------+
-        |
-        v
-+-------------------+
-| model_training.py |  --> XGBoost classifier
-+-------------------+
-        |
-        v
-+-------------------+
-| app.py (Streamlit)|  --> Real-time predictions
-+-------------------+
-```
+The data flow is as follows:
 
----
+1. **Yahoo Finance API**: Fetches 16 assets, 25+ years of data
+2. **Data Collector**: Fetches raw market data
+3. **Feature Engineering**: Creates 344 features
+4. **Model Training**: Trains XGBoost classifier
+5. **Streamlit Dashboard**: Provides real-time predictions
 
 ## Data Sources
+----------------
+
+The system tracks the following assets:
 
 ### Tracked Assets (16)
 
@@ -136,63 +72,71 @@ GOLD-TRADING-AI/
 
 ### Data Period
 
-- **Start**: January 1, 2000
-- **End**: Today
-- **Duration**: 25+ years
-- **Rows**: ~6,000+ trading days
-
----
+* **Start**: January 1, 2000
+* **End**: Today
+* **Duration**: 25+ years
+* **Rows**: ~6,000+ trading days
 
 ## Features Created (344)
+---------------------------
+
+The system creates the following features:
 
 ### Price & Returns
-- Multi-period returns (1d, 2d, 3d, 5d, 10d, 15d, 20d, 30d, 60d, 90d)
-- Log returns, Historical volatility (annualized)
-- True Range, ATR (7, 14, 21)
-- Opening gap, Distance to extremes
+
+* Multi-period returns (1d, 2d, 3d, 5d, 10d, 15d, 20d, 30d, 60d, 90d)
+* Log returns, Historical volatility (annualized)
+* True Range, ATR (7, 14, 21)
+* Opening gap, Distance to extremes
 
 ### Moving Averages
-- SMA/EMA (5, 8, 10, 13, 20, 21, 34, 50, 55, 89, 100, 144, 200, 233)
-- Distance to price, MA slopes
-- Crossovers (Golden Cross, Death Cross)
+
+* SMA/EMA (5, 8, 10, 13, 20, 21, 34, 50, 55, 89, 100, 144, 200, 233)
+* Distance to price, MA slopes
+* Crossovers (Golden Cross, Death Cross)
 
 ### Momentum
-- RSI (5, 7, 9, 14, 21, 28) with extreme zones
-- MACD standard and alternative
-- Stochastic (5, 9, 14, 21), Stochastic RSI
-- Williams %R, CCI, ADX, Ultimate Oscillator
-- Rate of Change multi-periods
+
+* RSI (5, 7, 9, 14, 21, 28) with extreme zones
+* MACD standard and alternative
+* Stochastic (5, 9, 14, 21), Stochastic RSI
+* Williams %R, CCI, ADX, Ultimate Oscillator
+* Rate of Change multi-periods
 
 ### Volatility
-- Bollinger Bands (periods: 10, 20, 50 x std: 1.5, 2, 2.5)
-- Position within bands, BB Squeeze
-- Breakout signals
+
+* Bollinger Bands (periods: 10, 20, 50 x std: 1.5, 2, 2.5)
+* Position within bands, BB Squeeze
+* Breakout signals
 
 ### Volume
-- Volume ratio, Volume spike detection
-- OBV, VPT, MFI, A/D Line
+
+* Volume ratio, Volume spike detection
+* OBV, VPT, MFI, A/D Line
 
 ### Macroeconomic
-- Ratios: Gold/DXY, Gold/Silver, Gold/Platinum, Gold/Copper
-- Rolling correlations (20d, 60d)
-- VIX levels, Yield Curve, Oil trends
-- S&P 500, NASDAQ, Bitcoin correlations
+
+* Ratios: Gold/DXY, Gold/Silver, Gold/Platinum, Gold/Copper
+* Rolling correlations (20d, 60d)
+* VIX levels, Yield Curve, Oil trends
+* S&P 500, NASDAQ, Bitcoin correlations
 
 ### Temporal
-- Cyclic encoding (day, month)
-- Flags: Monday, Friday, start/end of month, quarter
-- Gold seasonality (Q1, Q3, Q4)
+
+* Cyclic encoding (day, month)
+* Flags: Monday, Friday, start/end of month, quarter
+* Gold seasonality (Q1, Q3, Q4)
 
 ### Patterns
-- Consecutive up/down days
-- Candlestick patterns (Doji, Hammer, Engulfing)
-- Higher Highs, Lower Lows
 
----
+* Consecutive up/down days
+* Candlestick patterns (Doji, Hammer, Engulfing)
+* Higher Highs, Lower Lows
 
 ## Machine Learning Model
+-------------------------
 
-### XGBoost Configuration
+The system uses an XGBoost classifier with the following configuration:
 
 ```python
 {
@@ -219,44 +163,38 @@ GOLD-TRADING-AI/
 | **F1-Score** | ~92% |
 | **ROC-AUC** | ~98% |
 
----
-
 ## Streamlit Dashboard
+----------------------
 
-### Dashboard Sections
+The dashboard has the following sections:
 
 1. **Real-Time Data**
-   - XAU/USD price with variation
-   - DXY, US 10Y, VIX
-   - Silver, S&P 500, Oil, Bitcoin
-
+	* XAU/USD price with variation
+	* DXY, US 10Y, VIX
+	* Silver, S&P 500, Oil, Bitcoin
 2. **Trading Signal**
-   - Recommendation (Strong Buy/Buy/Neutral/Sell/Strong Sell)
-   - Probabilities with progress bars
-   - Technical indicators (RSI, MACD, Bollinger)
-
+	* Recommendation (Strong Buy/Buy/Neutral/Sell/Strong Sell)
+	* Probabilities with progress bars
+	* Technical indicators (RSI, MACD, Bollinger)
 3. **Technical Chart**
-   - Japanese candlesticks
-   - SMA 20/50/200
-   - Bollinger Bands
-   - RSI, MACD, Volume
-
+	* Japanese candlesticks
+	* SMA 20/50/200
+	* Bollinger Bands
+	* RSI, MACD, Volume
 4. **Correlations**
-   - Normalized comparative performance
-   - Correlation guide
-
+	* Normalized comparative performance
+	* Correlation guide
 5. **Feature Importance**
-   - Top 20 decision factors
-   - Interpretation
-
----
+	* Top 20 decision factors
+	* Interpretation
 
 ## Installation & Usage
+-----------------------
 
 ### Prerequisites
 
-- Python 3.9+
-- pip
+* Python 3.9+
+* pip
 
 ### Installation
 
@@ -291,9 +229,10 @@ streamlit run app.py
 
 The application will be accessible at `http://localhost:8501`
 
----
-
 ## Decision Thresholds
+---------------------
+
+The system uses the following decision thresholds:
 
 | Level | Probability | Signal |
 |-------|-------------|--------|
@@ -301,43 +240,35 @@ The application will be accessible at `http://localhost:8501`
 | **Moderate** | 55-70% | Buy / Sell |
 | **Weak** | < 55% | Weak Signal |
 
----
-
 ## Skills Demonstrated
+----------------------
 
-| Domain | Skills |
-|--------|--------|
-| **Data Engineering** | ETL, Financial APIs, Data pipelines |
-| **Quantitative Analysis** | Technical indicators, Macro correlations, Statistics |
-| **Machine Learning** | Advanced feature engineering, XGBoost, Temporal validation |
-| **Full-Stack Data** | Streamlit, Plotly, UI/UX, Interactive visualizations |
+The system demonstrates the following skills:
 
----
+* **Data Engineering**: ETL, Financial APIs, Data pipelines
+* **Quantitative Analysis**: Technical indicators, Macro correlations, Statistics
+* **Machine Learning**: Advanced feature engineering, XGBoost, Temporal validation
+* **Full-Stack Data**: Streamlit, Plotly, UI/UX, Interactive visualizations
 
 ## Disclaimer
+------------
 
 **This system is developed for educational and demonstration purposes only.**
 
 The predictions provided do not constitute financial advice in any way. Trading involves significant risk of capital loss. Any investment decision should be made after consulting a qualified financial advisor.
 
----
-
 ## Future Improvements
+---------------------
 
-- [ ] Fundamental data (inflation, employment, GDP)
-- [ ] Ensemble models (Random Forest + LSTM + Transformer)
-- [ ] Backtesting with Sharpe ratio calculation
-- [ ] Email/SMS alerts
-- [ ] Cloud deployment (AWS/GCP/Azure)
-- [ ] REST API for external integration
-- [ ] Sentiment analysis (news, Twitter)
-
----
+* [ ] Fundamental data (inflation, employment, GDP)
+* [ ] Ensemble models (Random Forest + LSTM + Transformer)
+* [ ] Backtesting with Sharpe ratio calculation
+* [ ] Email/SMS alerts
+* [ ] Cloud deployment (AWS/GCP/Azure)
+* [ ] REST API for external integration
+* [ ] Sentiment analysis (news, Twitter)
 
 ## Author
+--------
 
 **Ilyas Fardaoui**
-
----
-
-
