@@ -2,7 +2,7 @@
 ===========================================================
 
 ## Overview
-------------
+-----------
 
 This project is an end-to-end algorithmic trading system dedicated to gold (XAU/USD). It combines data engineering, quantitative analysis, machine learning, and full-stack development to provide real-time trading recommendations.
 
