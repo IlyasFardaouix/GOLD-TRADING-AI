@@ -19,67 +19,26 @@ This project is an end-to-end algorithmic trading system dedicated to gold (XAU/
 
 The project is organized into the following directories:
 
-### Data Directory (`data/`)
-
-* `raw_market_data.csv`: Raw market data (~7 MB)
-* `processed_features.csv`: Processed features (~37 MB)
-
-### Models Directory (`models/`)
-
-* `xgboost_gold_predictor.joblib`: XGBoost model
-* `feature_scaler.joblib`: Feature scaler
-
-### Logs Directory (`logs/`)
-
-* Log files
-
-### Configuration File (`config.py`)
-
-* Global configuration
-
-### Data Collection Module (`data_collector.py`)
-
-* Fetches raw market data
-
-### Feature Engineering Module (`feature_engineering.py`)
-
-* Creates 344 features
-
-### Model Training Module (`model_training.py`)
-
-* Trains XGBoost classifier
-
-### Streamlit Dashboard (`app.py`)
-
-* Interactive Streamlit dashboard (1100+ lines)
-
-### Pipeline Execution (`run_pipeline.py`)
-
-* Complete pipeline execution
-
-### Requirements File (`requirements.txt`)
-
-* Python dependencies
-
-### License (`LICENSE`)
-
-* MIT License
-
-### Contribution Guidelines (`CONTRIBUTING.md`)
-
-* Contribution guidelines
-
-### Makefile (`Makefile`)
-
-* Development shortcuts
-
-### Git Ignore File (`gitignore`)
-
-* Git ignore rules
-
-### Environment Variables Template (`env.example`)
-
-* Environment variables template
+* `data/`: Data directory (auto-generated)
+	+ `raw_market_data.csv`: Raw market data (~7 MB)
+	+ `processed_features.csv`: Processed features (~37 MB)
+* `models/`: Trained models (auto-generated)
+	+ `xgboost_gold_predictor.joblib`: XGBoost model
+	+ `feature_scaler.joblib`: Feature scaler
+* `logs/`: Log files
+* `config.py`: Global configuration
+* `data_collector.py`: Data collection module
+* `feature_engineering.py`: Feature engineering module
+* `model_training.py`: Model training module
+* `app.py`: Streamlit dashboard (1100+ lines)
+* `run_pipeline.py`: Complete pipeline execution
+* `requirements.txt`: Python dependencies
+* `README.md`: Project documentation
+* `LICENSE`: MIT License
+* `CONTRIBUTING.md`: Contribution guidelines
+* `Makefile`: Development shortcuts
+* `.gitignore`: Git ignore rules
+* `.env.example`: Environment variables template
 
 ## Data Flow
 ------------
@@ -309,4 +268,7 @@ The predictions provided do not constitute financial advice in any way. Trading 
 * [ ] REST API for external integration
 * [ ] Sentiment analysis (news, Twitter)
 
-##
+## Author
+--------
+
+**Ilyas Fardaoui**
