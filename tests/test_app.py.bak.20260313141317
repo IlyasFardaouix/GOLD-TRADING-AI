@@ -1,7 +1,7 @@
 ```python
 import pytest
 from unittest.mock import patch, MagicMock
-from your_module import (
+from your_module import (  # Replace 'your_module' with the actual module name
     load_model,
     fetch_realtime_data,
     fetch_latest_ohlc,
@@ -17,9 +17,6 @@ from your_module import (
 class TestGoldTradingAI:
     @patch('your_module.GoldTradingModel')
     def test_load_model(self, mock_GoldTradingModel):
-        """
-        Test the load_model function with a mocked GoldTradingModel instance.
-        """
         mock_model = MagicMock()
         mock_GoldTradingModel.return_value = mock_model
         model, loaded = load_model()
@@ -28,9 +25,6 @@ class TestGoldTradingAI:
 
     @patch('your_module.MarketDataCollector')
     def test_fetch_realtime_data(self, mock_MarketDataCollector):
-        """
-        Test the fetch_realtime_data function with a mocked MarketDataCollector instance.
-        """
         mock_collector = MagicMock()
         mock_MarketDataCollector.return_value = mock_collector
         data = fetch_realtime_data()
@@ -38,9 +32,6 @@ class TestGoldTradingAI:
 
     @patch('your_module.MarketDataCollector')
     def test_fetch_latest_ohlc(self, mock_MarketDataCollector):
-        """
-        Test the fetch_latest_ohlc function with a mocked MarketDataCollector instance.
-        """
         mock_collector = MagicMock()
         mock_MarketDataCollector.return_value = mock_collector
         data = fetch_latest_ohlc('1mo')
@@ -48,9 +39,6 @@ class TestGoldTradingAI:
 
     @patch('your_module.pd')
     def test_get_dataset_info(self, mock_pd):
-        """
-        Test the get_dataset_info function with a mocked pandas DataFrame.
-        """
         mock_df = MagicMock()
         mock_pd.read_csv.return_value = mock_df
         info = get_dataset_info()
@@ -59,26 +47,17 @@ class TestGoldTradingAI:
 
     @patch('your_module.make_subplots')
     def test_create_main_chart(self, mock_make_subplots):
-        """
-        Test the create_main_chart function with a mocked DataFrame.
-        """
         mock_df = MagicMock()
         fig = create_main_chart(mock_df)
         mock_make_subplots.assert_called_once()
 
     @patch('your_module.go')
     def test_create_correlation_chart(self, mock_go):
-        """
-        Test the create_correlation_chart function with a mocked DataFrame.
-        """
         mock_df = MagicMock()
         fig = create_correlation_chart(mock_df)
         mock_go.Figure.assert_called_once()
 
     def test_get_signal_html(self):
-        """
-        Test the get_signal_html function with a prediction and probability.
-        """
         prediction = 1
         probability = [0.2, 0.8]
         signal_text, signal_class = get_signal_html(prediction, probability)
@@ -88,9 +67,6 @@ class TestGoldTradingAI:
     @patch('your_module.GoldTradingModel')
     @patch('your_module.FeatureEngineer')
     def test_make_prediction(self, mock_FeatureEngineer, mock_GoldTradingModel):
-        """
-        Test the make_prediction function with mocked GoldTradingModel and FeatureEngineer instances.
-        """
         mock_model = MagicMock()
         mock_model.predict_from_df.return_value = (1, [0.2, 0.8])
         mock_GoldTradingModel.return_value = mock_model
@@ -102,36 +78,24 @@ class TestGoldTradingAI:
 
     @patch('your_module.st')
     def test_main(self, mock_st):
-        """
-        Test the main function with a mocked Streamlit instance.
-        """
         main()
         mock_st.markdown.assert_called()
         mock_st.plotly_chart.assert_called()
 
     @pytest.mark.parametrize("chart_period", ['1mo', '3mo', '6mo', '1y', '2y', '5y'])
     def test_main_chart_period(self, chart_period):
-        """
-        Test the main function with a mocked Streamlit selectbox.
-        """
         with patch('your_module.st') as mock_st:
             mock_st.selectbox.return_value = chart_period
             main()
             mock_st.plotly_chart.assert_called()
 
     def test_main_auto_refresh(self):
-        """
-        Test the main function with a mocked Streamlit checkbox.
-        """
         with patch('your_module.st') as mock_st:
             mock_st.checkbox.return_value = True
             main()
             mock_st.rerun.assert_called_once()
 
     def test_main_train_model(self):
-        """
-        Test the main function with a mocked Streamlit button.
-        """
         with patch('your_module.st') as mock_st:
             mock_st.button.return_value = True
             main()
@@ -139,9 +103,6 @@ class TestGoldTradingAI:
             mock_st.rerun.assert_called_once()
 
     def test_main_load_model_error(self):
-        """
-        Test the main function with a mocked load_model function that returns None and False.
-        """
         with patch('your_module.load_model') as mock_load_model:
             mock_load_model.return_value = None, False
             main()
